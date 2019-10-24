@@ -13,7 +13,7 @@ public class MediocreGame {
 	public MediocreGame() {
 		frame = new JFrame();
 		panel = new GamePanel();
-
+		frame.add(panel);
 	}
 
 	public void setup() {
@@ -25,4 +25,8 @@ public class MediocreGame {
 		frame.pack();
 	}
 
+	public static void main(String[] args) {
+		MediocreGame runner = new MediocreGame();
+		runner.setup();
+	}
 }
