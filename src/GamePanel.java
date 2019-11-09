@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,35 +7,37 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
-
+	Timer timer;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
-	int currentState = MENU_STATE;
+	int currentState = 0;
+	Font titleFont;
+	Font enterFont;
+	Font instructionFont;
 
 	public GamePanel() {
-
+		timer = new Timer(1000 / 60, this);
+		timer.start();
+		titleFont = new Font("Arial", Font.PLAIN, 48);
+		enterFont = new Font("Arial", Font.PLAIN, 36);
+		instructionFont = new Font("Arial", Font.PLAIN, 26);
 	}
 
-	public void changeMenu(Graphics g) {
-		if (currentState == MENU_STATE) {
-			g.setColor(Color.BLUE);
-			g.drawRect(0, 0, MediocreGame.width, MediocreGame.height);
-		}
-	}
-
+	@Override
 	public void paintComponent(Graphics g) {
-		if (currentState == MENU_STATE) {
+		if (currentState == 0) {
 
 			drawMenuState(g);
 
-		} else if (currentState == GAME_STATE) {
+		} else if (currentState == 1) {
 
 			drawGameState(g);
 
-		} else if (currentState == END_STATE) {
+		} else if (currentState == 2) {
 
 			drawEndState(g);
 
@@ -42,21 +45,39 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
+	void updateGame() {
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		repaint();
+	}
+
 	private void drawEndState(Graphics g) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.red);
-		g.drawRect(0, 0, MediocreGame.width, MediocreGame.height);
+		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 	}
 
 	private void drawGameState(Graphics g) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.WHITE);
-		g.drawRect(0, 0, MediocreGame.width, MediocreGame.height);
+		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 	}
 
 	private void drawMenuState(Graphics g) {
 		// TODO Auto-generated method stub
-		g.drawRect(0, 0, MediocreGame.width, MediocreGame.height);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+		g.setColor(Color.BLUE);
+		g.setFont(titleFont);
+		g.drawString("The World's Most Mediocre Game", 100, 200);
+		g.setFont(enterFont);
+		g.drawString("Press ENTER to start", 300, 300);
+		g.setFont(instructionFont);
+		g.drawString("Press SPACE for instructions", 300, 450);
 	}
 
 	@Override
@@ -68,20 +89,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getKeyCode()==10&&currentState!=GAME_STATE) {
-			if (e.getKeyCode() == 10 && currentState != 2) {
+		if (e.getKeyCode() == 10) {
+			if (currentState == END_STATE) {
+				currentState = 0;
+			} else if (e.getKeyCode() == 10 && currentState != 2) {
 				currentState++;
+				System.out.println("clicked");
 			}
+	
 		}
 	}
+
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
 	}

@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MediocreGame {
-	final static int width = 500;
+	final static int width = 900;
 	final static int height = 800;
 	JFrame frame;
 	GamePanel panel;
@@ -23,6 +23,7 @@ public class MediocreGame {
 		frame.setDefaultCloseOperation(3);
 		frame.getContentPane().setPreferredSize(new Dimension(width, height));
 		frame.pack();
+
 	}
 
 	public static void main(String[] args) {
