@@ -18,6 +18,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font enterFont;
 	Font instructionFont;
+	Boolean instructionsShowing = false;
 
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
@@ -30,7 +31,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		if (currentState == 0) {
-
+			if (instructionsShowing == true) {
+				drawInstructions(g);
+				System.out.println();
+			}
 			drawMenuState(g);
 
 		} else if (currentState == 1) {
@@ -42,10 +46,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			drawEndState(g);
 
 		}
-
-	}
-
-	void updateGame() {
 
 	}
 
@@ -67,6 +67,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 	}
 
+	private void drawInstructions(Graphics g) {
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect(225, 500, 500, 250);
+		g.setColor(Color.YELLOW);
+		g.setFont(instructionFont);
+		g.drawString("- Move around using the arrow keys.", 225, 525);
+		g.drawString("- Avoid the moving red objects", 225, 575);
+		g.drawString("- Collect the gold coins around the map", 225, 635);
+		g.drawString("- Reach the green tile to the side", 225, 695);
+	}
+
 	private void drawMenuState(Graphics g) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.LIGHT_GRAY);
@@ -77,7 +88,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(enterFont);
 		g.drawString("Press ENTER to start", 300, 300);
 		g.setFont(instructionFont);
-		g.drawString("Press SPACE for instructions", 300, 450);
+		g.drawString("Press SPACE for instructions", 305, 450);
+		// draw instructions
+
 	}
 
 	@Override
@@ -96,7 +109,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				currentState++;
 				System.out.println("clicked");
 			}
-	
+
+		}
+		// Turn instructions on
+		if (e.getKeyCode() == 32 && currentState == MENU_STATE && instructionsShowing == false) {
+			instructionsShowing = true;
+			System.out.println("true");
+		}
+		// turn instructions off
+		if (e.getKeyCode() == 32 && currentState == MENU_STATE && instructionsShowing == true) {
+			instructionsShowing = false;
+			System.out.println("False");
 		}
 	}
 
