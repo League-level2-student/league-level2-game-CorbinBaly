@@ -19,24 +19,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font enterFont;
 	Font instructionFont;
 	Boolean instructionsShowing = false;
-
+	int rocketX = 250;
+	int rocketY = 750;
+	Player player = new Player(rocketX, rocketY, 30, 30);
+	ObjectManager objectmanager;
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
 		timer.start();
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		enterFont = new Font("Arial", Font.PLAIN, 36);
 		instructionFont = new Font("Arial", Font.PLAIN, 26);
+		objectmanager = new ObjectManager(player);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		if (currentState == 0) {
+			drawMenuState(g);
 			if (instructionsShowing == true) {
 				drawInstructions(g);
-				System.out.println();
 			}
-			drawMenuState(g);
-
 		} else if (currentState == 1) {
 
 			drawGameState(g);
@@ -47,6 +49,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		}
 
+	}
+
+	public void updateGameState(Graphics g) {
+		objectmanager.Update(g);
+		objectmanager.Draw(g);
 	}
 
 	@Override
@@ -65,6 +72,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+		player.draw(g);
 	}
 
 	private void drawInstructions(Graphics g) {
@@ -117,9 +125,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			System.out.println("true");
 		}
 		// turn instructions off
-		if (e.getKeyCode() == 32 && currentState == MENU_STATE && instructionsShowing == true) {
+		else if (e.getKeyCode() == 32 && currentState == MENU_STATE && instructionsShowing == true) {
 			instructionsShowing = false;
 			System.out.println("False");
+		}
+		// directions
+		// left
+		if (e.getKeyCode() == 37) {
+			player.direction = "left";
+		}
+		// right
+		else if (e.getKeyCode() == 39) {
+			player.direction = "right";
+		}
+		// forward
+		else if (e.getKeyCode() == 40) {
+			player.direction = "back";
+		}
+		// back
+		else if (e.getKeyCode() == 38) {
+			player.direction = "forward";
 		}
 	}
 
