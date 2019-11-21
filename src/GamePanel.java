@@ -23,6 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int rocketY = 750;
 	Player player = new Player(rocketX, rocketY, 30, 30);
 	ObjectManager objectmanager;
+
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
 		timer.start();
@@ -73,6 +74,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 		player.draw(g);
+		updateGameState(g);
 	}
 
 	private void drawInstructions(Graphics g) {
@@ -109,6 +111,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println(player.direction);
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == 10) {
 			if (currentState == END_STATE) {
@@ -132,17 +135,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// directions
 		// left
 		if (e.getKeyCode() == 37) {
+			System.out.println(player.direction);
 			player.direction = "left";
 		}
 		// right
 		else if (e.getKeyCode() == 39) {
 			player.direction = "right";
 		}
-		// forward
+		// back
 		else if (e.getKeyCode() == 40) {
 			player.direction = "back";
 		}
-		// back
+		// forward
 		else if (e.getKeyCode() == 38) {
 			player.direction = "forward";
 		}
@@ -151,7 +155,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		player.direction = "";
 	}
 
 }
