@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int rocketY = 750;
 	Player player = new Player(rocketX, rocketY, 30, 30);
 	ObjectManager objectmanager;
-
+	
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
 		timer.start();

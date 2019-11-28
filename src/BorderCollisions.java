@@ -14,7 +14,7 @@ public BorderCollisions(int x, int y, int width, int height) {
 	this.height = height;
 }
 public void update(){
-	
+	collisionBox.setBounds(x, y, width, height);
 }
 
 

@@ -1,20 +1,21 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Player extends BorderCollisions{
-String direction = "right";
+public class Player extends BorderCollisions {
+	String direction = "right";
+
 	public Player(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		
+
 	}
-	
-public void draw(Graphics g) {
-g.setColor(Color.RED);
-g.fillRect(x, y, width, height);
-}
+
+	public void draw(Graphics g) {
+		g.setColor(Color.RED);
+		g.fillRect(x, y, width, height);
+	}
 
 	public void update() {
-		
+
 		// left
 		if (direction.equalsIgnoreCase("left")) {
 			x -= (10);
