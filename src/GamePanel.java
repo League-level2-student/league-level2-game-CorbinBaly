@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int rocketY = 750;
 	Player player = new Player(rocketX, rocketY, 30, 30);
 	ObjectManager objectmanager;
-	
+
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
 		timer.start();
@@ -54,7 +54,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public void updateGameState(Graphics g) {
 		objectmanager.Update(g);
-		objectmanager.Draw(g);
+		objectmanager.draw(g);
 	}
 
 	@Override
@@ -69,8 +69,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 	}
 
+	public void levelOne(Graphics g) {
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacle(new Obstacle(100,200+(i*30),25,25));
+		}
+	}
+
 	private void drawGameState(Graphics g) {
 		// TODO Auto-generated method stub
+		levelOne(g);
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 		player.draw(g);
@@ -111,7 +118,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(player.direction);
+		System.out.println(player.direcOne);
+		System.out.println(player.direcTwo);
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == 10) {
 			if (currentState == END_STATE) {
@@ -132,30 +140,38 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			instructionsShowing = false;
 			System.out.println("False");
 		}
-		// directions
+		// DIRECTIONS
+
 		// left
 		if (e.getKeyCode() == 37) {
-			System.out.println(player.direction);
-			player.direction = "left";
+			System.out.println(player.direcOne);
+			player.direcOne = "left";
 		}
 		// right
 		else if (e.getKeyCode() == 39) {
-			player.direction = "right";
+			player.direcOne = "right";
 		}
+
 		// back
-		else if (e.getKeyCode() == 40) {
-			player.direction = "back";
+		if (e.getKeyCode() == 40) {
+			player.direcTwo = "back";
 		}
 		// forward
 		else if (e.getKeyCode() == 38) {
-			player.direction = "forward";
+			player.direcTwo = "forward";
 		}
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		player.direction = "";
+		if (e.getKeyCode() == 37 || e.getKeyCode() == 39) {
+			player.direcOne = "";
+		}
+		if (e.getKeyCode() == 38 || e.getKeyCode() == 40) {
+			player.direcTwo = "";
+		}
 	}
 
 }

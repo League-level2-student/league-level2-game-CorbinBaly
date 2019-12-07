@@ -11,16 +11,28 @@ public class ObjectManager {
 		this.player = player;
 	}
 
-	public void Draw(Graphics g) {
+	void checkCollision() {
+		for (Obstacle a : obstacles) {
+			if (player.collisionBox.intersects(a.collisionBox)) {
+				player.isAlive = false;
+				System.out.println(player.isAlive);
+			}
+		}
+	}
+
+	void draw(Graphics g) {
 		player.draw(g);
-		
+		for (int i = 0; i < obstacles.size(); i++) {
+			obstacles.get(i).draw(g);
+		}
 	}
 
 	public void Update(Graphics g) {
 		player.update();
 	}
-	public void addObstacle(Obstacle thisobstacle) {
-		obstacles.add(thisobstacle);
-		
+
+	public void addObstacle(Obstacle obstacle) {
+		obstacles.add(obstacle);
+
 	}
 }

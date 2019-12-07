@@ -10,8 +10,8 @@ public class Obstacle extends BorderCollisions {
 	
 	public void update() {
 		super.update();
-		
 	}
+	
 	public void draw(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillOval(x, y, width, height);
