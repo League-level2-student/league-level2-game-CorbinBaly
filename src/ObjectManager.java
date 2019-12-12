@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class ObjectManager {
+	int i;
 	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 	Player player;
 
@@ -27,8 +28,11 @@ public class ObjectManager {
 		}
 	}
 
-	public void Update(Graphics g) {
+	public void update() {
 		player.update();
+		for (int i = 0; i < obstacles.size(); i++) {
+			obstacles.get(i).update();
+		}
 	}
 
 	public void addObstacle(Obstacle obstacle) {

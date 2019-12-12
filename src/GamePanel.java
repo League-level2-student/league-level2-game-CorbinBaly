@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -19,9 +20,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font enterFont;
 	Font instructionFont;
 	Boolean instructionsShowing = false;
-	int rocketX = 250;
-	int rocketY = 750;
-	Player player = new Player(rocketX, rocketY, 30, 30);
+	int playerX = 250;
+	int playerY = 750;
+	Player player = new Player(playerX, playerY, 30, 30);
 	ObjectManager objectmanager;
 
 	public GamePanel() {
@@ -31,6 +32,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		enterFont = new Font("Arial", Font.PLAIN, 36);
 		instructionFont = new Font("Arial", Font.PLAIN, 26);
 		objectmanager = new ObjectManager(player);
+		levelOne();
 	}
 
 	@Override
@@ -52,38 +54,47 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
-	public void updateGameState(Graphics g) {
-		objectmanager.Update(g);
-		objectmanager.draw(g);
+	public void updateGameState() {
+		objectmanager.update();
+
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		repaint();
+//// Levels
+	public void levelOne() {
+		// create obstacles
+		createObstacles(400, 300);
+
 	}
 
-	private void drawEndState(Graphics g) {
-		// TODO Auto-generated method stub
-		g.setColor(Color.red);
-		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+	public void leveltwo() {
+
 	}
 
-	public void levelOne(Graphics g) {
+	public void levelthree() {
+
+	}
+//// levelOne methods
+
+	public void createObstacles(int x, int y) {
+		// top
 		for (int i = 0; i < 10; i++) {
-			objectmanager.addObstacle(new Obstacle(100,200+(i*30),25,25));
+			objectmanager.addObstacle(new Obstacle(x, y + (i * 20), 20, 20, 0, i * 20));
+		}
+		// bottom
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacle(new Obstacle(x, y - (i * 20), 20, 20, 180, i * 20));
+		}
+		// left
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacle(new Obstacle(x - (i * 20), y, 20, 20, 270, i * 20));
+		}
+		// right
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacle(new Obstacle(x + (i * 20), y, 20, 20, 90, i * 20));
 		}
 	}
 
-	private void drawGameState(Graphics g) {
-		// TODO Auto-generated method stub
-		levelOne(g);
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
-		player.draw(g);
-		updateGameState(g);
-	}
-
+//// Draw
 	private void drawInstructions(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(225, 500, 500, 250);
@@ -93,6 +104,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("- Avoid the moving red objects", 225, 575);
 		g.drawString("- Collect the gold coins around the map", 225, 635);
 		g.drawString("- Reach the green tile to the side", 225, 695);
+	}
+
+	private void drawEndState(Graphics g) {
+		// TODO Auto-generated method stub
+		g.setColor(Color.red);
+		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+	}
+
+	private void drawGameState(Graphics g) {
+		// TODO Auto-generated method stub
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+		objectmanager.draw(g);
 	}
 
 	private void drawMenuState(Graphics g) {
@@ -110,6 +134,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
+//// Action Performed
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		repaint();
+		updateGameState();
+	}
+
+//// Key used
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
