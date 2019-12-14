@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class ObjectManager {
 	int i;
+
 	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 	Player player;
 
@@ -12,11 +13,13 @@ public class ObjectManager {
 		this.player = player;
 	}
 
+
 	void checkCollision() {
 		for (Obstacle a : obstacles) {
 			if (player.collisionBox.intersects(a.collisionBox)) {
+				obstacles.get(i).isAlive = false;
 				player.isAlive = false;
-				System.out.println(player.isAlive);
+				GamePanel.playerDeaths++;
 			}
 		}
 	}
@@ -26,12 +29,13 @@ public class ObjectManager {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).draw(g);
 		}
+
 	}
 
-	public void update() {
+	public void update(int x, int y) {
 		player.update();
 		for (int i = 0; i < obstacles.size(); i++) {
-			obstacles.get(i).update();
+			obstacles.get(i).update(x, y);
 		}
 	}
 

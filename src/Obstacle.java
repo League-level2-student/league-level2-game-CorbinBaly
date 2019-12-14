@@ -16,12 +16,12 @@ public class Obstacle extends BorderCollisions {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void update() {
+	public void update(int x, int y) {
 		super.update();
-		circleMove();
+		circleMove(x,y);
 	}
 
-	public void circleMove() {
+	public void circleMove(int xplac, int yplac) {
 		angle++;
 
 		if (angle >= 360) {
@@ -31,9 +31,9 @@ public class Obstacle extends BorderCollisions {
 		double rads = Math.toRadians(angle);
 		double x = Math.cos(rads) * radius;
 		double y = Math.sin(rads) * radius;
-		this.x = 200 + (int) (x);
-		this.y = 200 + (int) (y);
-		System.out.println(centerX + "," + centerY);
+		this.x = xplac + (int) (x);
+		this.y = yplac + (int) (y);
+	
 	}
 
 	public void draw(Graphics g) {

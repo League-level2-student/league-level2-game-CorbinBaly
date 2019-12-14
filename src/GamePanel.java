@@ -20,8 +20,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font enterFont;
 	Font instructionFont;
 	Boolean instructionsShowing = false;
-	int playerX = 250;
-	int playerY = 750;
+	int playerX = 150;
+	int playerY = 150;
+	static int playerDeaths = 0;
 	Player player = new Player(playerX, playerY, 30, 30);
 	ObjectManager objectmanager;
 
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void paintComponent(Graphics g) {
+
 		if (currentState == 0) {
 			drawMenuState(g);
 			if (instructionsShowing == true) {
@@ -55,8 +57,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void updateGameState() {
-		objectmanager.update();
-
+		objectmanager.update(400, 400);
+		objectmanager.checkCollision();
+		if (player.isAlive == false) {
+			currentState = 2;
+			playerX = 150;
+			playerY = 100;
+			player.isAlive=true;
+		}
 	}
 
 //// Levels
@@ -110,12 +118,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		g.setColor(Color.red);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+		g.setColor(Color.WHITE);
+		g.setFont(titleFont);
+		g.drawString("You Ded", 350, 200);
+		g.setFont(enterFont);
+		g.drawString("Press ENTER to try again", 250, 400);
+		g.setFont(instructionFont);
+		g.drawString("Deaths: "+playerDeaths, 240, 500);
 	}
 
 	private void drawGameState(Graphics g) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+		player.isAlive=true;
 		objectmanager.draw(g);
 	}
 
@@ -139,7 +155,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
-		updateGameState();
+		if(currentState==GAME_STATE) {
+			updateGameState();
+		}
 	}
 
 //// Key used
@@ -157,7 +175,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == 10) {
 			if (currentState == END_STATE) {
 				currentState = 0;
-			} else if (e.getKeyCode() == 10 && currentState != 2) {
+			} else if (e.getKeyCode() == 10 && currentState == MENU_STATE) {
 				currentState++;
 				System.out.println("clicked");
 			}

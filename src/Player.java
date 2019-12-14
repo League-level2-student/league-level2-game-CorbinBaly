@@ -12,10 +12,14 @@ public class Player extends BorderCollisions {
 	public void draw(Graphics g) {
 		g.setColor(Color.RED);
 		g.fillRect(x, y, width, height);
+		if(isAlive==false) {
+			g.clearRect(x, y, width, height);
+		}
 	}
 
-	public void update() {
 
+	public void update() {
+		super.update();
 		// left
 		if (direcOne.equalsIgnoreCase("left")) {
 			x -= (5);
@@ -24,9 +28,9 @@ public class Player extends BorderCollisions {
 		else if (direcOne.equalsIgnoreCase("right")) {
 			x += (5);
 		}
-		
+
 		// forward
-		 if (direcTwo.equalsIgnoreCase("forward")) {
+		if (direcTwo.equalsIgnoreCase("forward")) {
 			y -= (5);
 		}
 		// back
