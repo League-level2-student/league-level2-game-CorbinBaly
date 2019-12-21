@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 public class MediocreGame {
 	final static int width = 900;
-	final static int height = 800;
+	final static int height = 650;
 	JFrame frame;
 	GamePanel panel;
 

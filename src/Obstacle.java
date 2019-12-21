@@ -16,9 +16,8 @@ public class Obstacle extends BorderCollisions {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void update(int x, int y) {
+	public void update() {
 		super.update();
-		circleMove(x,y);
 	}
 
 	public void circleMove(int xplac, int yplac) {

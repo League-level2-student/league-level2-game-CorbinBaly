@@ -8,11 +8,11 @@ public class ObjectManager {
 
 	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 	Player player;
+	WallPiece wallpieces;
 
 	public ObjectManager(Player player) {
 		this.player = player;
 	}
-
 
 	void checkCollision() {
 		for (Obstacle a : obstacles) {
@@ -26,16 +26,29 @@ public class ObjectManager {
 
 	void draw(Graphics g) {
 		player.draw(g);
+
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).draw(g);
 		}
 
 	}
 
-	public void update(int x, int y) {
+	void drawWalls(Graphics g, int x, int y, int z, int xx) {
+		wallpieces = new WallPiece(x, y, z, xx);
+		wallpieces.draw(g);
+	}
+
+	public void update() {
 		player.update();
 		for (int i = 0; i < obstacles.size(); i++) {
-			obstacles.get(i).update(x, y);
+			obstacles.get(i).update();
+
+		}
+	}
+
+	public void finalCircles(int x, int y) {
+		for (int i = 0; i < obstacles.size(); i++) {
+			obstacles.get(i).circleMove(x, y);
 		}
 	}
 

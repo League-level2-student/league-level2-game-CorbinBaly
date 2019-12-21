@@ -20,11 +20,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font enterFont;
 	Font instructionFont;
 	Boolean instructionsShowing = false;
-	int playerX = 150;
-	int playerY = 150;
 	static int playerDeaths = 0;
-	Player player = new Player(playerX, playerY, 30, 30);
+	Player player = new Player(150, 150, 30, 30);
 	ObjectManager objectmanager;
+	int level = 0;
+	// x and y for obstacle placements
+	int xOne;
+	int yOne;
+	int xTwo;
+	int yTwo;
 
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
@@ -36,6 +40,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		levelOne();
 	}
 
+	// drawing everything
 	@Override
 	public void paintComponent(Graphics g) {
 
@@ -51,27 +56,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == 2) {
 
 			drawEndState(g);
-
+			player.isAlive = true;
 		}
 
 	}
 
 	public void updateGameState() {
-		objectmanager.update(400, 400);
+		objectmanager.finalCircles(xOne, yOne);
+		objectmanager.finalCircles(xTwo, yTwo);
+		objectmanager.update();
 		objectmanager.checkCollision();
 		if (player.isAlive == false) {
 			currentState = 2;
-			playerX = 150;
-			playerY = 100;
-			player.isAlive=true;
+			player.setX(0);
+			player.setY(0);
 		}
+
 	}
 
 //// Levels
 	public void levelOne() {
 		// create obstacles
-		createObstacles(400, 300);
-
+		createObstacles(0, 0);
+		xOne = 400;
+		yOne = 400;
 	}
 
 	public void leveltwo() {
@@ -81,7 +89,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void levelthree() {
 
 	}
-//// levelOne methods
+//// level methods
 
 	public void createObstacles(int x, int y) {
 		// top
@@ -94,11 +102,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		// left
 		for (int i = 0; i < 10; i++) {
-			objectmanager.addObstacle(new Obstacle(x - (i * 20), y, 20, 20, 270, i * 20));
+			objectmanager.addObstacle(new Obstacle(x, y - (i * 20), 20, 20, 270, i * 20));
 		}
 		// right
 		for (int i = 0; i < 10; i++) {
-			objectmanager.addObstacle(new Obstacle(x + (i * 20), y, 20, 20, 90, i * 20));
+			objectmanager.addObstacle(new Obstacle(x, y - (i * 20), 20, 20, 90, i * 20));
 		}
 	}
 
@@ -124,15 +132,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(enterFont);
 		g.drawString("Press ENTER to try again", 250, 400);
 		g.setFont(instructionFont);
-		g.drawString("Deaths: "+playerDeaths, 240, 500);
+		g.drawString("Deaths: " + playerDeaths, 240, 500);
+
 	}
 
 	private void drawGameState(Graphics g) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
-		player.isAlive=true;
+		player.isAlive = true;
 		objectmanager.draw(g);
+		if (level == 0 && player.isAlive) {
+			objectmanager.drawWalls(g, 0, 0, 1000, 25);
+			objectmanager.drawWalls(g, 0, 625, 1000, 25);
+			objectmanager.drawWalls(g, 0, 0, 25, 1000);
+			g.setColor(Color.GREEN);
+			g.fillRect(850, 600, 75, 75);
+		}
 	}
 
 	private void drawMenuState(Graphics g) {
@@ -155,7 +171,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
-		if(currentState==GAME_STATE) {
+		if (currentState == GAME_STATE) {
 			updateGameState();
 		}
 	}

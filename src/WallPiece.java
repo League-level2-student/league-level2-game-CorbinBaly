@@ -11,7 +11,7 @@ public class WallPiece extends BorderCollisions{
 		super.update();
 	}
 	public void draw(Graphics g) {
-		g.setColor(Color.darkGray);
+		g.setColor(Color.GRAY);
 		g.fillRect(x, y, width, height);
 	}
 }

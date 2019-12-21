@@ -12,9 +12,7 @@ public class Player extends BorderCollisions {
 	public void draw(Graphics g) {
 		g.setColor(Color.RED);
 		g.fillRect(x, y, width, height);
-		if(isAlive==false) {
-			g.clearRect(x, y, width, height);
-		}
+		
 	}
 
 
