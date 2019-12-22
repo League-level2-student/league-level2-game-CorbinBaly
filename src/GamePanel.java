@@ -29,6 +29,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int yOne;
 	int xTwo;
 	int yTwo;
+	int xThree;
+	int yThree;
 
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
@@ -62,8 +64,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void updateGameState() {
-		objectmanager.finalCircles(xOne, yOne);
-		objectmanager.finalCircles(xTwo, yTwo);
+		
 		objectmanager.update();
 		objectmanager.checkCollision();
 		if (player.isAlive == false) {
@@ -77,9 +78,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 //// Levels
 	public void levelOne() {
 		// create obstacles
-		createObstacles(0, 0);
 		xOne = 400;
 		yOne = 400;
+		xTwo = 200;
+		yTwo = 200;
+		xThree = 675;
+		yThree = 300;
+		createObstaclesOne(xOne, yOne, 30);
+		createObstaclesTwo(xTwo, yTwo, 30);
+		createObstaclesThree(xThree, yThree, 35);
 	}
 
 	public void leveltwo() {
@@ -91,22 +98,63 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 //// level methods
 
-	public void createObstacles(int x, int y) {
+	public void createObstaclesOne(int x, int y, int size) {
+		int realsize = size / 2;
 		// top
 		for (int i = 0; i < 10; i++) {
-			objectmanager.addObstacle(new Obstacle(x, y + (i * 20), 20, 20, 0, i * 20));
+			objectmanager.addObstacle(new Obstacle(x + (i * realsize), y, realsize, realsize, 0, i * realsize));
 		}
 		// bottom
 		for (int i = 0; i < 10; i++) {
-			objectmanager.addObstacle(new Obstacle(x, y - (i * 20), 20, 20, 180, i * 20));
+			objectmanager.addObstacle(new Obstacle(x - (i * realsize), y, realsize, realsize, 180, i * realsize));
 		}
 		// left
 		for (int i = 0; i < 10; i++) {
-			objectmanager.addObstacle(new Obstacle(x, y - (i * 20), 20, 20, 270, i * 20));
+			objectmanager.addObstacle(new Obstacle(x, y - (i * realsize), realsize, realsize, 270, i * realsize));
 		}
 		// right
 		for (int i = 0; i < 10; i++) {
-			objectmanager.addObstacle(new Obstacle(x, y - (i * 20), 20, 20, 90, i * 20));
+			objectmanager.addObstacle(new Obstacle(x, y + (i * realsize), realsize, realsize, 90, i * realsize));
+		}
+	}
+
+	public void createObstaclesTwo(int x, int y, int size) {
+		int realsize = size / 2;
+		// top
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleTwo(new Obstacle(x + (i * realsize), y, realsize, realsize, 0, i * realsize));
+		}
+		// bottom
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleTwo(new Obstacle(x - (i * realsize), y, realsize, realsize, 180, i * realsize));
+		}
+		// left
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleTwo(new Obstacle(x, y - (i * realsize), realsize, realsize, 270, i * realsize));
+		}
+		// right
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleTwo(new Obstacle(x, y + (i * realsize), realsize, realsize, 90, i * realsize));
+		}
+	}
+
+	public void createObstaclesThree(int x, int y, int size) {
+		int realsize = size / 2;
+		// top
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleThree(new Obstacle(x + (i * realsize), y, realsize, realsize, 0, i * realsize));
+		}
+		// bottom
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleThree(new Obstacle(x - (i * realsize), y, realsize, realsize, 180, i * realsize));
+		}
+		// left
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleThree(new Obstacle(x, y - (i * realsize), realsize, realsize, 270, i * realsize));
+		}
+		// right
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleThree(new Obstacle(x, y + (i * realsize), realsize, realsize, 90, i * realsize));
 		}
 	}
 
@@ -133,21 +181,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("Press ENTER to try again", 250, 400);
 		g.setFont(instructionFont);
 		g.drawString("Deaths: " + playerDeaths, 240, 500);
-
 	}
 
 	private void drawGameState(Graphics g) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
-		player.isAlive = true;
-		objectmanager.draw(g);
+		// level one
 		if (level == 0 && player.isAlive) {
+			g.setColor(Color.GREEN);
+			g.fillRect(800, 550, 75, 75);
+			objectmanager.draw(g);
 			objectmanager.drawWalls(g, 0, 0, 1000, 25);
 			objectmanager.drawWalls(g, 0, 625, 1000, 25);
 			objectmanager.drawWalls(g, 0, 0, 25, 1000);
+			objectmanager.drawWalls(g, 875, 25, 25, 1000);
+
+		}
+		// level two
+		if (level == 0 && player.isAlive) {
 			g.setColor(Color.GREEN);
-			g.fillRect(850, 600, 75, 75);
+			g.fillRect(800, 550, 75, 75);
+			objectmanager.draw(g);
+			objectmanager.drawWalls(g, 0, 0, 1000, 25);
+			objectmanager.drawWalls(g, 0, 625, 1000, 25);
+			objectmanager.drawWalls(g, 0, 0, 25, 1000);
+			objectmanager.drawWalls(g, 875, 25, 25, 1000);
 		}
 	}
 
@@ -163,6 +222,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(instructionFont);
 		g.drawString("Press SPACE for instructions", 305, 450);
 		// draw instructions
+
+	}
+
+	private void drawWinState(Graphics g) {
 
 	}
 

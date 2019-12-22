@@ -32,7 +32,6 @@ public class Obstacle extends BorderCollisions {
 		double y = Math.sin(rads) * radius;
 		this.x = xplac + (int) (x);
 		this.y = yplac + (int) (y);
-	
 	}
 
 	public void draw(Graphics g) {
