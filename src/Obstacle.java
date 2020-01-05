@@ -19,7 +19,7 @@ public class Obstacle extends BorderCollisions {
 	public void update() {
 		super.update();
 	}
-
+	//Rotating the circle
 	public void circleMove(int xplac, int yplac) {
 		angle++;
 

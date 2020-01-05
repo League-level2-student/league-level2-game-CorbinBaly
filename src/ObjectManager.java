@@ -15,7 +15,7 @@ public class ObjectManager {
 	public ObjectManager(Player player) {
 		this.player = player;
 	}
-
+	//Iterating through all obstacles and collisions to see if they collide.
 	void checkCollision() {
 		for (Obstacle a : obstacles) {
 			if (player.collisionBox.intersects(a.collisionBox)) {
@@ -26,14 +26,14 @@ public class ObjectManager {
 		}
 		for (Obstacle b : obstaclesTwo) {
 			if (player.collisionBox.intersects(b.collisionBox)) {
-				obstacles.get(i).isAlive = false;
+				obstaclesTwo.get(i).isAlive = false;
 				player.isAlive = false;
 				GamePanel.playerDeaths++;
 			}
 		}
 		for (Obstacle c : obstaclesThree) {
 			if (player.collisionBox.intersects(c.collisionBox)) {
-				obstacles.get(i).isAlive = false;
+				obstaclesThree.get(i).isAlive = false;
 				player.isAlive = false;
 				GamePanel.playerDeaths++;
 			}
@@ -46,9 +46,15 @@ public class ObjectManager {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).draw(g);
 		}
+		for (int i = 0; i < obstacles.size(); i++) {
+			obstaclesTwo.get(i).draw(g);
+		}
+		for (int i = 0; i < obstacles.size(); i++) {
+			obstaclesThree.get(i).draw(g);
+		}
 
 	}
-
+	//Drawing walls
 	void drawWalls(Graphics g, int x, int y, int width, int height) {
 		wallpieces = new WallPiece(x, y, width, height);
 		wallpieces.draw(g);
@@ -62,41 +68,18 @@ public class ObjectManager {
 
 	}
 
-	public void rotateOne(int x, int y) {
+	public void rotateAll(int firstx, int firsty, int secondx, int secondy, int thirdx, int thirdy) {
 		for (int i = 0; i < obstacles.size(); i++) {
-			obstacles.get(i).circleMove(x, y);
+			obstacles.get(i).circleMove(firstx, firsty);
 		}
 		for (int i = 0; i < obstacles.size(); i++) {
-			obstaclesTwo.get(i).circleMove(x, y);
+			obstaclesTwo.get(i).circleMove(secondx, secondy);
 		}
 		for (int i = 0; i < obstacles.size(); i++) {
-			obstaclesThree.get(i).circleMove(x, y);
-		}
-	}
-
-	public void rotateTwo(int x, int y) {
-		for (int i = 0; i < obstacles.size(); i++) {
-			obstacles.get(i).circleMove(x, y);
-		}
-		for (int i = 0; i < obstacles.size(); i++) {
-			obstaclesTwo.get(i).circleMove(x, y);
-		}
-		for (int i = 0; i < obstacles.size(); i++) {
-			obstaclesThree.get(i).circleMove(x, y);
+			obstaclesThree.get(i).circleMove(thirdx, thirdy);
 		}
 	}
 
-	public void rotateThree(int x, int y) {
-		for (int i = 0; i < obstacles.size(); i++) {
-			obstacles.get(i).circleMove(x, y);
-		}
-		for (int i = 0; i < obstacles.size(); i++) {
-			obstaclesTwo.get(i).circleMove(x, y);
-		}
-		for (int i = 0; i < obstacles.size(); i++) {
-			obstaclesThree.get(i).circleMove(x, y);
-		}
-	}
 
 	public void addObstacle(Obstacle obstacle) {
 		obstacles.add(obstacle);
