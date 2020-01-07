@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -7,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Iterator;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -24,7 +27,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Player player = new Player(150, 150, 30, 30);
 	ObjectManager objectmanager;
 	int level = 0;
-	// x and y for obstacle placements
+	int coins = 0;
+	// X and Y's for obstacle placements
 	int xOne;
 	int yOne;
 	int xTwo;
@@ -39,10 +43,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		enterFont = new Font("Arial", Font.PLAIN, 36);
 		instructionFont = new Font("Arial", Font.PLAIN, 26);
 		objectmanager = new ObjectManager(player);
-		levelOne();
+		if (level == 0) {
+			leveloneValues();
+		}
+
 	}
 
-	// Drawing menus n stuff
+	//////////////
+	// Game State chooser
 	@Override
 	public void paintComponent(Graphics g) {
 
@@ -63,22 +71,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
-	// updating game stuff
-	public void updateGameState() {
-		objectmanager.rotateAll(xOne, yOne, xTwo, yTwo, xThree, yThree);
-		objectmanager.update();
-		objectmanager.checkCollision();
-		if (player.isAlive == false) {
-			currentState = 2;
-			player.setX(20);
-			player.setY(20);
-		}
-
-	}
-
+	//////////////
 	//// Levels
-	public void levelOne() {
+	public void leveloneValues() {
 		// create obstacles
+		coins = 0;
 		xOne = 200;
 		yOne = 400;
 		xTwo = 300;
@@ -90,6 +87,35 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		createObstaclesThree(xThree, yThree, 50);
 	}
 
+	public void leveloneGraphics(Graphics g) {
+		if (level == 0 && player.isAlive && GAME_STATE == currentState) {
+			MediocreGame.width = 700;
+			MediocreGame.height = 400;
+			this.setPreferredSize(new Dimension(300, 300));
+			Container container = this.getTopLevelAncestor();
+			if (container instanceof JFrame) {
+				JFrame frame = (JFrame) container;
+				frame.pack();
+			}
+			// background color
+			g.setColor(Color.WHITE);
+			g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+			// Safe Zone
+			g.setColor(Color.GREEN);
+			g.fillRect(40, 40, 75, 75);
+			// game tab side bars
+			objectmanager.draw(g);
+			// top bar
+			objectmanager.drawWalls(g, 0, 0, MediocreGame.width, 25);
+			// bottom bar
+			objectmanager.drawWalls(g, 0, MediocreGame.height - 25, MediocreGame.width, 25);
+			// left bar
+			objectmanager.drawWalls(g, 0, 25, 25, MediocreGame.height);
+			// right bar
+			objectmanager.drawWalls(g, MediocreGame.width - 25, 25, 25, MediocreGame.height);
+		}
+	}
+
 	public void leveltwo() {
 
 	}
@@ -97,8 +123,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void levelthree() {
 
 	}
-	//// level methods
+	//////////////
+	//// Game Object Methods
 
+					//creating obstacles
 	public void createObstaclesOne(int x, int y, int size) {
 		int objectsize = size / 2;
 		// top
@@ -170,7 +198,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
+	public void updateGameState() {
+		objectmanager.rotateAll(xOne, yOne, xTwo, yTwo, xThree, yThree);
+		objectmanager.update();
+		objectmanager.checkCollision();
+		if (player.isAlive == false) {
+			currentState = 2;
+			player.setX(20);
+			player.setY(20);
+		}
+
+	}
+
+	//////////////
 	//// Draw
+					//drawing states
 	private void drawInstructions(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(225, 500, 500, 250);
@@ -184,6 +226,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	private void drawEndState(Graphics g) {
 		// TODO Auto-generated method stub
+		MediocreGame.width = 900;
+		MediocreGame.height = 650;
 		g.setColor(Color.red);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 		g.setColor(Color.WHITE);
@@ -196,29 +240,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	private void drawGameState(Graphics g) {
+		// Drawing Game Things
 		// TODO Auto-generated method stub
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
-		// level one
-		if (level == 0 && player.isAlive) {
-			g.setColor(Color.GREEN);
-			g.fillRect(800, 550, 75, 75);
-			objectmanager.draw(g);
-			objectmanager.drawWalls(g, 0, 0, 1000, 25);
-			objectmanager.drawWalls(g, 0, 625, 1000, 25);
-			objectmanager.drawWalls(g, 0, 0, 25, 1000);
-			objectmanager.drawWalls(g, 875, 25, 25, 1000);
-
-		}
-		// level two
-		if (level == 0 && player.isAlive) {
-			g.setColor(Color.GREEN);
-			g.fillRect(800, 550, 75, 75);
-			objectmanager.draw(g);
-			objectmanager.drawWalls(g, 0, 0, 1000, 25);
-			objectmanager.drawWalls(g, 0, 625, 1000, 25);
-			objectmanager.drawWalls(g, 0, 0, 25, 1000);
-			objectmanager.drawWalls(g, 875, 25, 25, 1000);
+		// level 0
+		if (level == 0) {
+			leveloneGraphics(g);
 		}
 	}
 
@@ -236,11 +262,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
-	private void drawWinState(Graphics g) {
-
-	}
-
-	//// Action Performed/Refreshing game
+	//////////////
+	//// Other
+	
+	// Action Performed/Refreshing game
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -250,7 +275,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
-	//// Key used
+	// Key used
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub

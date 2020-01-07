@@ -65,6 +65,12 @@ public class ObjectManager {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).update();
 		}
+		for (int i = 0; i < obstaclesTwo.size(); i++) {
+			obstaclesTwo.get(i).update();
+		}
+		for (int i = 0; i < obstaclesThree.size(); i++) {
+			obstaclesThree.get(i).update();
+		}
 
 	}
 
