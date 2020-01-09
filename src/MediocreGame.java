@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 public class MediocreGame {
 	static int width = 900;
 	static int height = 650;
-	JFrame frame;
+	public static JFrame frame;
 	GamePanel panel;
 
 	public MediocreGame() {
@@ -15,7 +15,7 @@ public class MediocreGame {
 		panel = new GamePanel();
 		frame.add(panel);
 	}
-
+	
 	public void setup() {
 		frame.setVisible(true);
 		frame.add(panel);

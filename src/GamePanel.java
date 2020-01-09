@@ -89,14 +89,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public void leveloneGraphics(Graphics g) {
 		if (level == 0 && player.isAlive && GAME_STATE == currentState) {
-			MediocreGame.width = 700;
-			MediocreGame.height = 400;
-			this.setPreferredSize(new Dimension(300, 300));
-			Container container = this.getTopLevelAncestor();
-			if (container instanceof JFrame) {
-				JFrame frame = (JFrame) container;
-				frame.pack();
-			}
+			changeSize(300,300);
 			// background color
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
@@ -123,6 +116,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void levelthree() {
 
 	}
+	
 	//////////////
 	//// Game Object Methods
 
@@ -265,6 +259,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	//////////////
 	//// Other
 	
+	//change size
+	public void changeSize(int width, int height) {
+		MediocreGame.width = width;
+		MediocreGame.height = height;
+		this.setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
+		MediocreGame.frame.getContentPane().setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
+		MediocreGame.frame.pack();
+	}
 	// Action Performed/Refreshing game
 	@Override
 	public void actionPerformed(ActionEvent e) {
