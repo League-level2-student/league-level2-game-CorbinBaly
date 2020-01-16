@@ -8,7 +8,7 @@ public class MediocreGame {
 	static int width = 900;
 	static int height = 650;
 	public static JFrame frame;
-	GamePanel panel;
+	static GamePanel panel;
 
 	public MediocreGame() {
 		frame = new JFrame();
@@ -21,9 +21,15 @@ public class MediocreGame {
 		frame.add(panel);
 		frame.addKeyListener(panel);
 		frame.setDefaultCloseOperation(3);
-		frame.getContentPane().setPreferredSize(new Dimension(width, height));
+		
 		frame.pack();
-
+	}
+	public static void changeSize(int newWidth, int newHeight) {
+		width = newWidth;
+		height = newHeight;
+		panel.setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
+		//MediocreGame.frame.getContentPane().setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
+		frame.pack();
 	}
 
 	public static void main(String[] args) {

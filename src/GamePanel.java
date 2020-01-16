@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font instructionFont;
 	Boolean instructionsShowing = false;
 	static int playerDeaths = 0;
-	Player player = new Player(150, 150, 30, 30);
+	Player player = new Player(100, 100, 30, 30);
 	ObjectManager objectmanager;
 	int level = 0;
 	int coins = 0;
@@ -89,23 +89,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public void leveloneGraphics(Graphics g) {
 		if (level == 0 && player.isAlive && GAME_STATE == currentState) {
-			changeSize(300,300);
+			MediocreGame.changeSize(800, 400);
 			// background color
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 			// Safe Zone
 			g.setColor(Color.GREEN);
 			g.fillRect(40, 40, 75, 75);
-			// game tab side bars
 			objectmanager.draw(g);
-			// top bar
-			objectmanager.drawWalls(g, 0, 0, MediocreGame.width, 25);
-			// bottom bar
-			objectmanager.drawWalls(g, 0, MediocreGame.height - 25, MediocreGame.width, 25);
-			// left bar
-			objectmanager.drawWalls(g, 0, 25, 25, MediocreGame.height);
-			// right bar
-			objectmanager.drawWalls(g, MediocreGame.width - 25, 25, 25, MediocreGame.height);
+
 		}
 	}
 
@@ -116,11 +108,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void levelthree() {
 
 	}
-	
+
 	//////////////
 	//// Game Object Methods
 
-					//creating obstacles
+	// creating obstacles
 	public void createObstaclesOne(int x, int y, int size) {
 		int objectsize = size / 2;
 		// top
@@ -142,6 +134,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			objectmanager
 					.addObstacle(new Obstacle(x, y + (i * objectsize), objectsize, objectsize, 90, i * objectsize));
 		}
+		// walls
+		// top bar
+		objectmanager.addWall(new WallPiece(0, 0, MediocreGame.width, 25));
+		// bottom bar
+		objectmanager.addWall(new WallPiece(0, MediocreGame.height - 25, MediocreGame.width, 25));
+		// left bar
+		objectmanager.addWall(new WallPiece(0, 25, 25, MediocreGame.height));
+		// right bar
+		objectmanager.addWall(new WallPiece(MediocreGame.width - 25, 25, 25, MediocreGame.height));
 	}
 
 	public void createObstaclesTwo(int x, int y, int size) {
@@ -206,7 +207,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	//////////////
 	//// Draw
-					//drawing states
+	// drawing states
 	private void drawInstructions(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(225, 500, 500, 250);
@@ -226,11 +227,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 		g.setColor(Color.WHITE);
 		g.setFont(titleFont);
-		g.drawString("You Ded", 350, 200);
+		g.drawString("You Ded", 20, 175);
 		g.setFont(enterFont);
-		g.drawString("Press ENTER to try again", 250, 400);
+		g.drawString("Press ENTER to try again", 150, 250);
 		g.setFont(instructionFont);
-		g.drawString("Deaths: " + playerDeaths, 240, 500);
+		g.drawString("Deaths: " + playerDeaths, 175, 300);
 	}
 
 	private void drawGameState(Graphics g) {
@@ -244,6 +245,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	private void drawMenuState(Graphics g) {
 		// TODO Auto-generated method stub
+		MediocreGame.changeSize(900, 650);
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 		g.setColor(Color.BLUE);
@@ -258,15 +260,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	//////////////
 	//// Other
-	
-	//change size
+
+	// change size
 	public void changeSize(int width, int height) {
 		MediocreGame.width = width;
 		MediocreGame.height = height;
 		this.setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
-		MediocreGame.frame.getContentPane().setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
+		//MediocreGame.frame.getContentPane().setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
 		MediocreGame.frame.pack();
 	}
+
 	// Action Performed/Refreshing game
 	@Override
 	public void actionPerformed(ActionEvent e) {

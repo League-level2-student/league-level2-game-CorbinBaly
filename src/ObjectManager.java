@@ -9,8 +9,8 @@ public class ObjectManager {
 	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 	ArrayList<Obstacle> obstaclesTwo = new ArrayList<Obstacle>();
 	ArrayList<Obstacle> obstaclesThree = new ArrayList<Obstacle>();
+	ArrayList<WallPiece> wallpieces = new ArrayList<WallPiece>();
 	Player player;
-	WallPiece wallpieces;
 
 	public ObjectManager(Player player) {
 		this.player = player;
@@ -52,12 +52,13 @@ public class ObjectManager {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstaclesThree.get(i).draw(g);
 		}
-
+		for (int i = 0; i < wallpieces.size(); i++) {
+			wallpieces.get(i).draw(g);
+		}
 	}
 	//Drawing walls
-	void drawWalls(Graphics g, int x, int y, int width, int height) {
-		wallpieces = new WallPiece(x, y, width, height);
-		wallpieces.draw(g);
+	void addWall(WallPiece wallpiece) {
+		wallpieces.add(wallpiece);
 	}
 
 	public void update() {

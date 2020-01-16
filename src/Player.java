@@ -4,7 +4,8 @@ import java.awt.Graphics;
 public class Player extends BorderCollisions {
 	String direcOne = "none";
 	String direcTwo = "none";
-
+	int PlayerX;
+	int PlayerY;
 	public Player(int x, int y, int width, int height) {
 		super(x, y, width, height);
 	}
