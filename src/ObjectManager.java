@@ -15,7 +15,8 @@ public class ObjectManager {
 	public ObjectManager(Player player) {
 		this.player = player;
 	}
-	//Iterating through all obstacles and collisions to see if they collide.
+
+	// Iterating through all obstacles and collisions to see if they collide.
 	void checkCollision() {
 		for (Obstacle a : obstacles) {
 			if (player.collisionBox.intersects(a.collisionBox)) {
@@ -37,7 +38,22 @@ public class ObjectManager {
 				player.isAlive = false;
 				GamePanel.playerDeaths++;
 			}
+		
 		}
+		for (WallPiece d : wallpieces) {
+	
+		}
+	}
+
+	void createWalls() {
+		// top bar
+		addWall(new WallPiece(0, 0, MediocreGame.width, 25));
+		// bottom bar
+		addWall(new WallPiece(0, MediocreGame.height - 25, MediocreGame.width, 25));
+		// left bar
+		addWall(new WallPiece(0, 25, 25, MediocreGame.height));
+		// right bar
+		addWall(new WallPiece(MediocreGame.width - 25, 25, 25, MediocreGame.height));
 	}
 
 	void draw(Graphics g) {
@@ -56,7 +72,8 @@ public class ObjectManager {
 			wallpieces.get(i).draw(g);
 		}
 	}
-	//Drawing walls
+
+	// Drawing walls
 	void addWall(WallPiece wallpiece) {
 		wallpieces.add(wallpiece);
 	}
@@ -72,6 +89,9 @@ public class ObjectManager {
 		for (int i = 0; i < obstaclesThree.size(); i++) {
 			obstaclesThree.get(i).update();
 		}
+		for (int i = 0; i < wallpieces.size(); i++) {
+			wallpieces.get(i).update();
+		}
 
 	}
 
@@ -86,7 +106,6 @@ public class ObjectManager {
 			obstaclesThree.get(i).circleMove(thirdx, thirdy);
 		}
 	}
-
 
 	public void addObstacle(Obstacle obstacle) {
 		obstacles.add(obstacle);

@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font instructionFont;
 	Boolean instructionsShowing = false;
 	static int playerDeaths = 0;
-	Player player = new Player(100, 100, 30, 30);
+	Player player = new Player(40, 40, 30, 30);
 	ObjectManager objectmanager;
 	int level = 0;
 	int coins = 0;
@@ -45,6 +45,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		objectmanager = new ObjectManager(player);
 		if (level == 0) {
 			leveloneValues();
+		}
+		if (level == 1) {
+			leveltwoValues();
 		}
 
 	}
@@ -73,6 +76,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	//////////////
 	//// Levels
+	
+	// level 1
 	public void leveloneValues() {
 		// create obstacles
 		coins = 0;
@@ -87,7 +92,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		createObstaclesThree(xThree, yThree, 50);
 	}
 
-	public void leveloneGraphics(Graphics g) {
+    public void leveloneGraphics(Graphics g) {
 		if (level == 0 && player.isAlive && GAME_STATE == currentState) {
 			MediocreGame.changeSize(800, 400);
 			// background color
@@ -97,22 +102,43 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.setColor(Color.GREEN);
 			g.fillRect(40, 40, 75, 75);
 			objectmanager.draw(g);
-
 		}
 	}
+
+    // level 2
 
 	public void leveltwo() {
 
 	}
 
-	public void levelthree() {
-
+	public void leveltwoValues() {
+		coins = 0;
+		xOne = 200;
+		yOne = 400;
+		xTwo = 300;
+		yTwo = 200;
+		xThree = 600;
+		yThree = 600;
+		createObstaclesOne(xOne, yOne, 50);
+		createObstaclesTwo(xTwo, yTwo, 50);
+		createObstaclesThree(xThree, yThree, 50);
 	}
 
+	public void leveltwoGraphics(Graphics g) {
+			if (level == 1 && player.isAlive && GAME_STATE == currentState) {
+				MediocreGame.changeSize(400, 800);
+				// background color
+				g.setColor(Color.WHITE);
+				g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+				// Safe Zone
+				g.setColor(Color.GREEN);
+				g.fillRect(40, 40, 75, 75);
+				objectmanager.draw(g);
+			}
+		}
 	//////////////
 	//// Game Object Methods
 
-	// creating obstacles
 	public void createObstaclesOne(int x, int y, int size) {
 		int objectsize = size / 2;
 		// top
@@ -134,15 +160,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			objectmanager
 					.addObstacle(new Obstacle(x, y + (i * objectsize), objectsize, objectsize, 90, i * objectsize));
 		}
-		// walls
-		// top bar
-		objectmanager.addWall(new WallPiece(0, 0, MediocreGame.width, 25));
-		// bottom bar
-		objectmanager.addWall(new WallPiece(0, MediocreGame.height - 25, MediocreGame.width, 25));
-		// left bar
-		objectmanager.addWall(new WallPiece(0, 25, 25, MediocreGame.height));
-		// right bar
-		objectmanager.addWall(new WallPiece(MediocreGame.width - 25, 25, 25, MediocreGame.height));
+		
 	}
 
 	public void createObstaclesTwo(int x, int y, int size) {
@@ -221,8 +239,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	private void drawEndState(Graphics g) {
 		// TODO Auto-generated method stub
-		MediocreGame.width = 900;
-		MediocreGame.height = 650;
+		MediocreGame.changeSize(700, 450);
 		g.setColor(Color.red);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 		g.setColor(Color.WHITE);
@@ -237,10 +254,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private void drawGameState(Graphics g) {
 		// Drawing Game Things
 		// TODO Auto-generated method stub
-		// level 0
+		// level 1
 		if (level == 0) {
-			leveloneGraphics(g);
+			//objectmanager.createWalls();
+			leveloneGraphics(g);	
 		}
+		// level 2
+		if(level == 1) {
+			objectmanager.createWalls();
+			leveltwoGraphics(g);
+		}
+			
 	}
 
 	private void drawMenuState(Graphics g) {
@@ -258,17 +282,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
-	//////////////
-	//// Other
-
-	// change size
-	public void changeSize(int width, int height) {
-		MediocreGame.width = width;
-		MediocreGame.height = height;
-		this.setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
-		//MediocreGame.frame.getContentPane().setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
-		MediocreGame.frame.pack();
-	}
 
 	// Action Performed/Refreshing game
 	@Override

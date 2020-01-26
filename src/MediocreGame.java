@@ -21,14 +21,14 @@ public class MediocreGame {
 		frame.add(panel);
 		frame.addKeyListener(panel);
 		frame.setDefaultCloseOperation(3);
-		
 		frame.pack();
 	}
 	public static void changeSize(int newWidth, int newHeight) {
 		width = newWidth;
 		height = newHeight;
-		panel.setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
-		//MediocreGame.frame.getContentPane().setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
+		//panel.setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
+		frame.setPreferredSize(new Dimension(MediocreGame.width, MediocreGame.height));
+		//panel.setSize(new Dimension(MediocreGame.width, MediocreGame.height));
 		frame.pack();
 	}
 
