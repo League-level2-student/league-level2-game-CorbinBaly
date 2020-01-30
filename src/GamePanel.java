@@ -23,11 +23,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font enterFont;
 	Font instructionFont;
 	Boolean instructionsShowing = false;
+	
 	static int playerDeaths = 0;
 	Player player = new Player(40, 40, 30, 30);
 	ObjectManager objectmanager;
 	int level = 0;
 	int coins = 0;
+	int endpointX;
+	int endpointY;
 	// X and Y's for obstacle placements
 	int xOne;
 	int yOne;
@@ -49,7 +52,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (level == 1) {
 			leveltwoValues();
 		}
-
 	}
 
 	//////////////
@@ -82,11 +84,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// create obstacles
 		coins = 0;
 		xOne = 200;
-		yOne = 400;
-		xTwo = 300;
-		yTwo = 200;
+		yOne = 265;
+		xTwo = 500;
+		yTwo = 300;
 		xThree = 600;
 		yThree = 600;
+		
 		createObstaclesOne(xOne, yOne, 50);
 		createObstaclesTwo(xTwo, yTwo, 50);
 		createObstaclesThree(xThree, yThree, 50);
@@ -101,6 +104,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			// Safe Zone
 			g.setColor(Color.GREEN);
 			g.fillRect(40, 40, 75, 75);
+			// End Point
+			endpointX = 705;
+			endpointY = 290;
+			g.setColor(Color.GREEN);
+			g.fillRect(endpointX, endpointY, 70, 70);
 			objectmanager.draw(g);
 		}
 	}
@@ -117,8 +125,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		yOne = 400;
 		xTwo = 300;
 		yTwo = 200;
-		xThree = 600;
-		yThree = 600;
+		xThree = 200;
+		yThree = 200;
 		createObstaclesOne(xOne, yOne, 50);
 		createObstaclesTwo(xTwo, yTwo, 50);
 		createObstaclesThree(xThree, yThree, 50);
@@ -134,6 +142,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				g.setColor(Color.GREEN);
 				g.fillRect(40, 40, 75, 75);
 				objectmanager.draw(g);
+				g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+				// End Point
+				g.setColor(Color.GREEN);
+				g.fillRect(40, 40, 75, 75);
 			}
 		}
 	//////////////
@@ -217,8 +229,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		objectmanager.checkCollision();
 		if (player.isAlive == false) {
 			currentState = 2;
-			player.setX(20);
-			player.setY(20);
+			player.setX(40);
+			player.setY(40);
+		}
+		if(objectmanager.sendBack) {
+			player.setX(40);
+			player.setY(40);
+			objectmanager.sendBack = false;
 		}
 
 	}
@@ -255,8 +272,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// Drawing Game Things
 		// TODO Auto-generated method stub
 		// level 1
+		
+		objectmanager.createWalls();
 		if (level == 0) {
-			//objectmanager.createWalls();
 			leveloneGraphics(g);	
 		}
 		// level 2
@@ -264,12 +282,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			objectmanager.createWalls();
 			leveltwoGraphics(g);
 		}
-			
+		//level up
+		if(endpointX==player.x&&endpointY==player.y) {
+			level++;
+			currentState=MENU_STATE;
+			player.x = 40;
+			player.y = 40;
+		}
 	}
 
 	private void drawMenuState(Graphics g) {
 		// TODO Auto-generated method stub
-		MediocreGame.changeSize(900, 650);
+		MediocreGame.changeSize(900, 750);
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 		g.setColor(Color.BLUE);

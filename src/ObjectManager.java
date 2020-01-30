@@ -11,6 +11,7 @@ public class ObjectManager {
 	ArrayList<Obstacle> obstaclesThree = new ArrayList<Obstacle>();
 	ArrayList<WallPiece> wallpieces = new ArrayList<WallPiece>();
 	Player player;
+	boolean sendBack = false;
 
 	public ObjectManager(Player player) {
 		this.player = player;
@@ -23,6 +24,7 @@ public class ObjectManager {
 				obstacles.get(i).isAlive = false;
 				player.isAlive = false;
 				GamePanel.playerDeaths++;
+				return;
 			}
 		}
 		for (Obstacle b : obstaclesTwo) {
@@ -30,6 +32,7 @@ public class ObjectManager {
 				obstaclesTwo.get(i).isAlive = false;
 				player.isAlive = false;
 				GamePanel.playerDeaths++;
+				return;
 			}
 		}
 		for (Obstacle c : obstaclesThree) {
@@ -37,11 +40,16 @@ public class ObjectManager {
 				obstaclesThree.get(i).isAlive = false;
 				player.isAlive = false;
 				GamePanel.playerDeaths++;
+				return;
 			}
-		
+
 		}
 		for (WallPiece d : wallpieces) {
-	
+			if (player.collisionBox.intersects(d.collisionBox)) {
+				wallpieces.get(i).isAlive=false;
+				sendBack = true;
+				return;
+			}
 		}
 	}
 
@@ -49,7 +57,7 @@ public class ObjectManager {
 		// top bar
 		addWall(new WallPiece(0, 0, MediocreGame.width, 25));
 		// bottom bar
-		addWall(new WallPiece(0, MediocreGame.height - 25, MediocreGame.width, 25));
+		addWall(new WallPiece(0, MediocreGame.height - 45, MediocreGame.width, 25));
 		// left bar
 		addWall(new WallPiece(0, 25, 25, MediocreGame.height));
 		// right bar
