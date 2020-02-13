@@ -12,7 +12,7 @@ public class ObjectManager {
 	ArrayList<WallPiece> wallpieces = new ArrayList<WallPiece>();
 	Player player;
 	boolean sendBack = false;
-
+	
 	public ObjectManager(Player player) {
 		this.player = player;
 	}
@@ -78,6 +78,22 @@ public class ObjectManager {
 		}
 		for (int i = 0; i < wallpieces.size(); i++) {
 			wallpieces.get(i).draw(g);
+		}
+	
+	}
+	
+	void removeStuff() {
+		for (int i = 0; i < wallpieces.size(); i++) {
+			wallpieces.remove(i);
+		}
+		for (int i = 0; i < obstacles.size(); i++) {
+			obstacles.remove(i);
+		}
+		for (int i = 0; i < obstacles.size(); i++) {
+			obstaclesTwo.remove(i);
+		}
+		for (int i = 0; i < obstacles.size(); i++) {
+			obstaclesThree.remove(i);
 		}
 	}
 
