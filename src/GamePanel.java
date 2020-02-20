@@ -230,7 +230,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			objectmanager.sendBack = false;
 		}
 		// level up
-		if (player.x >= endpointX && endpointY <= player.y) {
+		if (player.x >= endpointX && endpointY == player.y) {
 			level++;
 			currentState = MENU_STATE;
 			objectmanager.sendBack = true;
