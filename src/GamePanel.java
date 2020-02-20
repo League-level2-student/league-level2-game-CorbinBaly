@@ -80,14 +80,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// create obstacles
 		xOne = 300;
 		yOne = 200;
-		xTwo = 600;
+		xTwo = 400;
 		yTwo = 250;
 		xThree = 600;
-		yThree = 600;
+		yThree = 225;
 
 		createObstaclesOne(xOne, yOne, 50);
 		createObstaclesTwo(xTwo, yTwo, 50);
-		createObstaclesThree(xThree, yThree, 50);
+		createObstaclesThree(xThree, yThree, 0);
 	}
 
 	public void leveloneGraphics(Graphics g) {
@@ -103,7 +103,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			endpointX = 705;
 			endpointY = 290;
 			g.setColor(Color.GREEN);
-			g.fillRect(endpointX+10, endpointY+10, 70, 70);
+			g.fillRect(endpointX+10, endpointY+10, 60, 60);
 			objectmanager.draw(g);
 		}
 	}
@@ -130,15 +130,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public void leveltwoValues() {
 		
-		xOne = 200;
+		xOne = 175;
 		yOne = 200;
-		xTwo = 300;
-		yTwo = 300;
-		xThree = 200;
-		yThree = 200;
+		xTwo = 170;
+		yTwo = 340;
+		xThree = 160;
+		yThree = 400;
 		createObstaclesOne(xOne, yOne, 25);
-		createObstaclesTwo(xTwo, yTwo, 25);
-		createObstaclesThree(xThree, yThree, 25);
+		createObstaclesTwo(xTwo, yTwo, 35);
+		createObstaclesThree(xThree, yThree, 50);
 	}
 
 	//////////////
@@ -157,8 +157,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		// left
 		for (int i = 0; i < 10; i++) {
-			objectmanager
-					.addObstacle(new Obstacle(x, y - (i * objectsize), objectsize, objectsize, 270, i * objectsize));
+			objectmanager.addObstacle(new Obstacle(x, y - (i * objectsize), objectsize, objectsize, 270, i * objectsize));
 		}
 		// right
 		for (int i = 0; i < 10; i++) {
@@ -231,7 +230,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			objectmanager.sendBack = false;
 		}
 		// level up
-		if (player.x >= endpointX && endpointY == player.y) {
+		if (player.x >= endpointX && endpointY <= player.y) {
 			level++;
 			currentState = MENU_STATE;
 			objectmanager.sendBack = true;
@@ -296,7 +295,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(instructionFont);
 		g.drawString("Press SPACE for instructions", 305, 450);
 		//clearing walls
-		//objectmanager.removeStuff();
+		objectmanager.removeStuff();
 		if (level == 0) {
 			leveloneValues();
 		}

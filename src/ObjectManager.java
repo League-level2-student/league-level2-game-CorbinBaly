@@ -24,6 +24,7 @@ public class ObjectManager {
 				obstacles.get(i).isAlive = false;
 				player.isAlive = false;
 				GamePanel.playerDeaths++;
+				System.out.println("Killed player= 1");
 				return;
 			}
 		}
@@ -32,6 +33,7 @@ public class ObjectManager {
 				obstaclesTwo.get(i).isAlive = false;
 				player.isAlive = false;
 				GamePanel.playerDeaths++;
+				System.out.println("Killed player= 2");
 				return;
 			}
 		}
@@ -39,6 +41,7 @@ public class ObjectManager {
 			if (player.collisionBox.intersects(c.collisionBox)) {
 				obstaclesThree.get(i).isAlive = false;
 				player.isAlive = false;
+				System.out.println("Killed player =3");
 				GamePanel.playerDeaths++;
 				return;
 			}
@@ -70,10 +73,10 @@ public class ObjectManager {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).draw(g);
 		}
-		for (int i = 0; i < obstacles.size(); i++) {
+		for (int i = 0; i < obstaclesTwo.size(); i++) {
 			obstaclesTwo.get(i).draw(g);
 		}
-		for (int i = 0; i < obstacles.size(); i++) {
+		for (int i = 0; i < obstaclesThree.size(); i++) {
 			obstaclesThree.get(i).draw(g);
 		}
 		for (int i = 0; i < wallpieces.size(); i++) {
@@ -83,18 +86,10 @@ public class ObjectManager {
 	}
 	
 	void removeStuff() {
-		for (int i = 0; i < wallpieces.size(); i++) {
-			wallpieces.remove(i);
-		}
-		for (int i = 0; i < obstacles.size(); i++) {
-			obstacles.remove(i);
-		}
-		for (int i = 0; i < obstacles.size(); i++) {
-			obstaclesTwo.remove(i);
-		}
-		for (int i = 0; i < obstacles.size(); i++) {
-			obstaclesThree.remove(i);
-		}
+		wallpieces.clear();
+		obstacles.clear();
+		obstaclesTwo.clear();
+		obstaclesThree.clear();
 	}
 
 	// Drawing walls
@@ -123,10 +118,10 @@ public class ObjectManager {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).circleMove(firstx, firsty);
 		}
-		for (int i = 0; i < obstacles.size(); i++) {
+		for (int i = 0; i < obstaclesTwo.size(); i++) {
 			obstaclesTwo.get(i).circleMove(secondx, secondy);
 		}
-		for (int i = 0; i < obstacles.size(); i++) {
+		for (int i = 0; i < obstaclesThree.size(); i++) {
 			obstaclesThree.get(i).circleMove(thirdx, thirdy);
 		}
 	}

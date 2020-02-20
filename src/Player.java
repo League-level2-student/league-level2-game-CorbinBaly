@@ -13,6 +13,8 @@ public class Player extends BorderCollisions {
 	public void draw(Graphics g) {
 		g.setColor(Color.RED);
 		g.fillRect(x, y, width, height);
+		g.setColor(Color.GREEN);
+		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 		
 	}
 
