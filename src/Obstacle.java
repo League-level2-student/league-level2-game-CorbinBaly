@@ -37,8 +37,6 @@ public class Obstacle extends BorderCollisions {
 	public void draw(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillOval(x, y, width, height);
-		g.setColor(Color.PINK);
-		g.drawOval(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	}
 
 }

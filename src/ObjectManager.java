@@ -5,20 +5,28 @@ import java.util.Random;
 
 public class ObjectManager {
 	int i;
-
+	
 	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 	ArrayList<Obstacle> obstaclesTwo = new ArrayList<Obstacle>();
 	ArrayList<Obstacle> obstaclesThree = new ArrayList<Obstacle>();
 	ArrayList<WallPiece> wallpieces = new ArrayList<WallPiece>();
 	Player player;
 	boolean sendBack = false;
-	
-	public ObjectManager(Player player) {
+	EndPoint endpoint;
+	public ObjectManager(Player player,EndPoint endpoint) {
 		this.player = player;
+		this.endpoint = endpoint;
 	}
 
 	// Iterating through all obstacles and collisions to see if they collide.
 	void checkCollision() {
+		if(player.collisionBox.intersects(endpoint.collisionBox)) {
+			GamePanel.level++;
+			sendBack = true;
+			GamePanel.currentState = 0;
+			System.out.println("level up");
+			
+		}
 		for (Obstacle a : obstacles) {
 			if (player.collisionBox.intersects(a.collisionBox)) {
 				obstacles.get(i).isAlive = false;
@@ -69,7 +77,7 @@ public class ObjectManager {
 
 	void draw(Graphics g) {
 		player.draw(g);
-
+		endpoint.draw(g);
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).draw(g);
 		}
@@ -98,6 +106,7 @@ public class ObjectManager {
 	}
 
 	public void update() {
+		
 		player.update();
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).update();
@@ -111,7 +120,7 @@ public class ObjectManager {
 		for (int i = 0; i < wallpieces.size(); i++) {
 			wallpieces.get(i).update();
 		}
-
+		endpoint.update();
 	}
 
 	public void rotateAll(int firstx, int firsty, int secondx, int secondy, int thirdx, int thirdy) {

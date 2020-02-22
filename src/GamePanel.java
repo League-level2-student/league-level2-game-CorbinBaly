@@ -23,14 +23,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font enterFont;
 	Font instructionFont;
 	Boolean instructionsShowing = false;
-
+	int endPointX = 700;
+	int endPointY = 300;
+	EndPoint endpoint = new EndPoint(endPointX, endPointY, 75, 75);
 	static int playerDeaths = 0;
 	Player player = new Player(40, 40, 30, 30);
 	ObjectManager objectmanager;
-	int level = 0;
-	int coins = 0;
-	int endpointX;
-	int endpointY;
+	static int level = 0;
 	// X and Y's for obstacle placements
 	int xOne;
 	int yOne;
@@ -45,8 +44,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		enterFont = new Font("Arial", Font.PLAIN, 36);
 		instructionFont = new Font("Arial", Font.PLAIN, 26);
-		objectmanager = new ObjectManager(player);
 		
+		objectmanager = new ObjectManager(player,endpoint);
 		
 	}
 
@@ -84,7 +83,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		yTwo = 250;
 		xThree = 600;
 		yThree = 225;
-
 		createObstaclesOne(xOne, yOne, 50);
 		createObstaclesTwo(xTwo, yTwo, 50);
 		createObstaclesThree(xThree, yThree, 0);
@@ -94,16 +92,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (level == 0 && player.isAlive && GAME_STATE == currentState) {
 			MediocreGame.changeSize(800, 400);
 			// background color
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+			//g.setColor(Color.WHITE);
+			//g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 			// Safe Zone
 			g.setColor(Color.GREEN);
 			g.fillRect(40, 40, 75, 75);
-			// End Point
-			endpointX = 705;
-			endpointY = 290;
-			g.setColor(Color.GREEN);
-			g.fillRect(endpointX+10, endpointY+10, 60, 60);
 			objectmanager.draw(g);
 		}
 	}
@@ -120,10 +113,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.setColor(Color.GREEN);
 			g.fillRect(40, 40, 75, 75);
 			// End Point
-			endpointX = 705;
-			endpointY = 290;
-			g.setColor(Color.GREEN);
-			g.fillRect(endpointX, endpointY, 70, 70);
 			objectmanager.draw(g);
 		}
 	}
@@ -134,8 +123,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		yOne = 200;
 		xTwo = 170;
 		yTwo = 340;
-		xThree = 160;
+		xThree = 130;
 		yThree = 400;
+		endPointY = 400;
+		endPointX = 100;
 		createObstaclesOne(xOne, yOne, 25);
 		createObstaclesTwo(xTwo, yTwo, 35);
 		createObstaclesThree(xThree, yThree, 50);
@@ -229,12 +220,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			player.setY(40);
 			objectmanager.sendBack = false;
 		}
-		// level up
-		if (player.x >= endpointX && endpointY == player.y) {
-			level++;
-			currentState = MENU_STATE;
-			objectmanager.sendBack = true;
-		}
+		
 
 	}
 
@@ -294,7 +280,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("Press ENTER to start", 300, 300);
 		g.setFont(instructionFont);
 		g.drawString("Press SPACE for instructions", 305, 450);
-		//clearing walls
+		//clearing stuff
 		objectmanager.removeStuff();
 		if (level == 0) {
 			leveloneValues();
