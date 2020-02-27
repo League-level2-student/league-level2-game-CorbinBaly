@@ -3,29 +3,35 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 public class ObjectManager {
 	int i;
-	
+
 	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 	ArrayList<Obstacle> obstaclesTwo = new ArrayList<Obstacle>();
 	ArrayList<Obstacle> obstaclesThree = new ArrayList<Obstacle>();
+	ArrayList<Obstacle> obstaclesFour = new ArrayList<Obstacle>();
 	ArrayList<WallPiece> wallpieces = new ArrayList<WallPiece>();
+
 	Player player;
 	boolean sendBack = false;
 	EndPoint endpoint;
-	public ObjectManager(Player player,EndPoint endpoint) {
+
+	public ObjectManager(Player player, EndPoint endpoint) {
 		this.player = player;
 		this.endpoint = endpoint;
 	}
 
 	// Iterating through all obstacles and collisions to see if they collide.
 	void checkCollision() {
-		if(player.collisionBox.intersects(endpoint.collisionBox)) {
+		if (player.collisionBox.intersects(endpoint.collisionBox)) {
+			// else if(GamePanel.level == 0 && GamePanel.playerDeaths)
 			GamePanel.level++;
 			sendBack = true;
 			GamePanel.currentState = 0;
 			System.out.println("level up");
-			
+
 		}
 		for (Obstacle a : obstacles) {
 			if (player.collisionBox.intersects(a.collisionBox)) {
@@ -55,13 +61,24 @@ public class ObjectManager {
 			}
 
 		}
+		for (Obstacle d : obstaclesFour) {
+			if (player.collisionBox.intersects(d.collisionBox)) {
+				obstaclesThree.get(i).isAlive = false;
+				player.isAlive = false;
+				System.out.println("Killed player =3");
+				GamePanel.playerDeaths++;
+				return;
+			}
+
+		}
 		for (WallPiece d : wallpieces) {
 			if (player.collisionBox.intersects(d.collisionBox)) {
-				wallpieces.get(i).isAlive=false;
+				wallpieces.get(i).isAlive = false;
 				sendBack = true;
 				return;
 			}
 		}
+
 	}
 
 	void createWalls() {
@@ -87,17 +104,21 @@ public class ObjectManager {
 		for (int i = 0; i < obstaclesThree.size(); i++) {
 			obstaclesThree.get(i).draw(g);
 		}
+		for (int i = 0; i < obstaclesFour.size(); i++) {
+			obstaclesFour.get(i).draw(g);
+		}
 		for (int i = 0; i < wallpieces.size(); i++) {
 			wallpieces.get(i).draw(g);
 		}
-	
+
 	}
-	
+
 	void removeStuff() {
 		wallpieces.clear();
 		obstacles.clear();
 		obstaclesTwo.clear();
 		obstaclesThree.clear();
+		obstaclesFour.clear();
 	}
 
 	// Drawing walls
@@ -105,8 +126,7 @@ public class ObjectManager {
 		wallpieces.add(wallpiece);
 	}
 
-	public void update() {
-		
+	public void update(int x, int y) {
 		player.update();
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).update();
@@ -120,10 +140,13 @@ public class ObjectManager {
 		for (int i = 0; i < wallpieces.size(); i++) {
 			wallpieces.get(i).update();
 		}
-		endpoint.update();
+		for (int i = 0; i < obstaclesFour.size(); i++) {
+			obstaclesFour.get(i).update();
+		}
+		endpoint.update(x, y);
 	}
 
-	public void rotateAll(int firstx, int firsty, int secondx, int secondy, int thirdx, int thirdy) {
+	public void rotateAll(int firstx, int firsty, int secondx, int secondy, int thirdx, int thirdy, int fourx, int foury) {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).circleMove(firstx, firsty);
 		}
@@ -132,6 +155,9 @@ public class ObjectManager {
 		}
 		for (int i = 0; i < obstaclesThree.size(); i++) {
 			obstaclesThree.get(i).circleMove(thirdx, thirdy);
+		}
+		for (int i = 0; i < obstaclesFour.size(); i++) {
+			obstaclesFour.get(i).circleMove(fourx, foury);
 		}
 	}
 
@@ -147,6 +173,10 @@ public class ObjectManager {
 
 	public void addObstacleThree(Obstacle obstacle) {
 		obstaclesThree.add(obstacle);
+
+	}
+	public void addObstacleFour(Obstacle obstacle) {
+		obstaclesFour.add(obstacle);
 
 	}
 }

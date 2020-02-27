@@ -10,11 +10,13 @@ import java.awt.event.KeyListener;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
+	boolean showMessage;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
@@ -29,7 +31,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static int playerDeaths = 0;
 	Player player = new Player(40, 40, 30, 30);
 	ObjectManager objectmanager;
-	static int level = 0;
+	static int level = 2;
 	// X and Y's for obstacle placements
 	int xOne;
 	int yOne;
@@ -37,6 +39,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int yTwo;
 	int xThree;
 	int yThree;
+	int xFour;
+	int yFour;
 
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
@@ -44,9 +48,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		enterFont = new Font("Arial", Font.PLAIN, 36);
 		instructionFont = new Font("Arial", Font.PLAIN, 26);
-		
-		objectmanager = new ObjectManager(player,endpoint);
-		
+		objectmanager = new ObjectManager(player, endpoint);
 	}
 
 	//////////////
@@ -92,8 +94,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (level == 0 && player.isAlive && GAME_STATE == currentState) {
 			MediocreGame.changeSize(800, 400);
 			// background color
-			//g.setColor(Color.WHITE);
-			//g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+			g.setColor(Color.WHITE);
+			g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
 			// Safe Zone
 			g.setColor(Color.GREEN);
 			g.fillRect(40, 40, 75, 75);
@@ -113,23 +115,55 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.setColor(Color.GREEN);
 			g.fillRect(40, 40, 75, 75);
 			// End Point
+			endPointY = 400;
+			endPointX = 100;
 			objectmanager.draw(g);
 		}
 	}
 
 	public void leveltwoValues() {
-		
+
 		xOne = 175;
 		yOne = 200;
 		xTwo = 170;
 		yTwo = 340;
 		xThree = 130;
 		yThree = 400;
-		endPointY = 400;
-		endPointX = 100;
 		createObstaclesOne(xOne, yOne, 25);
 		createObstaclesTwo(xTwo, yTwo, 35);
 		createObstaclesThree(xThree, yThree, 50);
+	}
+
+	public void levelthreeGraphics(Graphics g) {
+		if (level == 2 && player.isAlive && GAME_STATE == currentState) {
+			MediocreGame.changeSize(700, 300);
+			// background color
+			g.setColor(Color.WHITE);
+			g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+			// Safe Zone
+			g.setColor(Color.GREEN);
+			g.fillRect(40, 40, 75, 75);
+			// End Point
+			endPointY = 50;
+			endPointX = 600;
+			objectmanager.draw(g);
+		}
+	}
+
+	public void levelthreeValues() {
+
+		xOne = 250;
+		yOne = 300;
+		xTwo = 450;
+		yTwo = 0;
+		xThree = 625;
+		yThree = 300;
+		xFour = 700;
+		yFour = 50;
+		createObstaclesOne(xOne, yOne, 50);
+		createObstaclesTwo(xTwo, yTwo, 45);
+		createObstaclesThree(xThree, yThree, 50);
+		createObstaclesFour(xFour, yFour, 50);
 	}
 
 	//////////////
@@ -148,7 +182,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		// left
 		for (int i = 0; i < 10; i++) {
-			objectmanager.addObstacle(new Obstacle(x, y - (i * objectsize), objectsize, objectsize, 270, i * objectsize));
+			objectmanager
+					.addObstacle(new Obstacle(x, y - (i * objectsize), objectsize, objectsize, 270, i * objectsize));
 		}
 		// right
 		for (int i = 0; i < 10; i++) {
@@ -206,9 +241,33 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
+	public void createObstaclesFour(int x, int y, int size){
+		int objectsize = size / 2;
+		// top
+		for (int i = 0; i < 10; i++) {
+			objectmanager
+					.addObstacleFour(new Obstacle(x + (i * objectsize), y, objectsize, objectsize, 0, i * objectsize));
+		}
+		// bottom
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleFour(
+					new Obstacle(x - (i * objectsize), y, objectsize, objectsize, 180, i * objectsize));
+		}
+		// left
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleFour(
+					new Obstacle(x, y - (i * objectsize), objectsize, objectsize, 270, i * objectsize));
+		}
+		// right
+		for (int i = 0; i < 10; i++) {
+			objectmanager.addObstacleFour(
+					new Obstacle(x, y + (i * objectsize), objectsize, objectsize, 90, i * objectsize));
+		}
+	}
+
 	public void updateGameState() {
-		objectmanager.rotateAll(xOne, yOne, xTwo, yTwo, xThree, yThree);
-		objectmanager.update();
+		objectmanager.rotateAll(xOne, yOne, xTwo, yTwo, xThree, yThree, xFour, yFour);
+		objectmanager.update(endPointX, endPointY);
 		objectmanager.checkCollision();
 		if (player.isAlive == false) {
 			currentState = 2;
@@ -220,7 +279,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			player.setY(40);
 			objectmanager.sendBack = false;
 		}
-		
 
 	}
 
@@ -263,7 +321,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// level 2
 		else if (level == 1) {
 			leveltwoGraphics(g);
-			
+
+		} else if (level == 2) {
+			levelthreeGraphics(g);
+
 		}
 
 	}
@@ -280,13 +341,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("Press ENTER to start", 300, 300);
 		g.setFont(instructionFont);
 		g.drawString("Press SPACE for instructions", 305, 450);
-		//clearing stuff
+		if (showMessage) {
+			JOptionPane.showMessageDialog(null, "Oh nice, you got it first try.");
+			System.out.println("working");
+			showMessage = false;
+		}
+		// clearing stuff
 		objectmanager.removeStuff();
 		if (level == 0) {
 			leveloneValues();
-		}
-		else if (level == 1) {
+		} else if (level == 1) {
 			leveltwoValues();
+		} else if (level == 2) {
+			levelthreeValues();
 		}
 	}
 

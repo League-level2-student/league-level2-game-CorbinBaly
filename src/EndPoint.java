@@ -12,9 +12,10 @@ public class EndPoint extends BorderCollisions{
 			g.fillRect(x, y, width, height);
 		}
 		
-		public void update() {
+		public void update(int x, int y) {
 			super.update();
-			return;
+			this.x = x;
+			this.y = y;
 		}
 	}
 
