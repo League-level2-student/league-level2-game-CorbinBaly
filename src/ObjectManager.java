@@ -31,7 +31,27 @@ public class ObjectManager {
 			sendBack = true;
 			GamePanel.currentState = 0;
 			System.out.println("level up");
-
+			if(GamePanel.level==1) {
+				JOptionPane.showMessageDialog(null, "Yeah that one was easy, let's see the next one.");
+				Player.direcOne = "none";
+				Player.direcTwo = "none";
+			}
+			if(GamePanel.level==2) {
+				JOptionPane.showMessageDialog(null, "Even better, but still a bit too easy. ");
+				Player.direcOne = "none";
+				Player.direcTwo = "none";
+			}
+			if(GamePanel.level==3) {
+				JOptionPane.showMessageDialog(null, "Wow, you're getting pretty good!");
+				Player.direcOne = "none";
+				Player.direcTwo = "none";
+			}if(GamePanel.level==4) {
+				JOptionPane.showMessageDialog(null, "Oh my god you did it. It took me like over 80 tries to get this one. I'm so proud of  you.");
+				JOptionPane.showMessageDialog(null, "That's the end. That's it. It's time for you to go outside. Get out of the house. Have fun.");
+				Player.direcOne = "none";
+				Player.direcTwo = "none";
+			}
+			
 		}
 		for (Obstacle a : obstacles) {
 			if (player.collisionBox.intersects(a.collisionBox)) {

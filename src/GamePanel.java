@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static int playerDeaths = 0;
 	Player player = new Player(40, 40, 30, 30);
 	ObjectManager objectmanager;
-	static int level = 2;
+	static int level = 4;
 	// X and Y's for obstacle placements
 	int xOne;
 	int yOne;
@@ -87,7 +87,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		yThree = 225;
 		createObstaclesOne(xOne, yOne, 50);
 		createObstaclesTwo(xTwo, yTwo, 50);
-		createObstaclesThree(xThree, yThree, 0);
+		createObstaclesThree(xThree, yThree, 50);
 	}
 
 	public void leveloneGraphics(Graphics g) {
@@ -163,9 +163,75 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		createObstaclesOne(xOne, yOne, 50);
 		createObstaclesTwo(xTwo, yTwo, 45);
 		createObstaclesThree(xThree, yThree, 50);
-		createObstaclesFour(xFour, yFour, 50);
+		createObstaclesFour(xFour, yFour, 30);
 	}
 
+	public void levelfourGraphics(Graphics g) {
+		if (level == 3 && player.isAlive && GAME_STATE == currentState) {
+			MediocreGame.changeSize(500, 500);
+			// background color
+			g.setColor(Color.WHITE);
+			g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+			// Safe Zone
+			g.setColor(Color.GREEN);
+			g.fillRect(40, 40, 75, 75);
+			// End Point
+			endPointY = 380;
+			endPointX = 25;
+			objectmanager.draw(g);
+		}
+	}
+
+	public void levelfourValues() {
+
+		xOne = 100;
+		yOne = 300;
+		xTwo = 300;
+		yTwo = 100;
+		xThree = 280;
+		yThree = 375;
+		xFour = 400;
+		yFour = 300;
+		createObstaclesOne(xOne, yOne, 50);
+		createObstaclesTwo(xTwo, yTwo, 40);
+		createObstaclesThree(xThree, yThree, 35);
+		createObstaclesFour(xFour, yFour, 30);
+	}
+	
+	public void levelfiveGraphics(Graphics g) {
+		if (level == 4 && player.isAlive && GAME_STATE == currentState) {
+			MediocreGame.changeSize(300, 700);
+			// background color
+			g.setColor(Color.WHITE);
+			g.fillRect(0, 0, MediocreGame.width, MediocreGame.height);
+			// Safe Zone
+			g.setColor(Color.GREEN);
+			g.fillRect(40, 40, 75, 75);
+			// End Point
+			endPointY = 600;
+			endPointX = 200;
+			objectmanager.draw(g);
+		}
+	}
+
+	public void levelfiveValues() {
+
+		xOne = 300;
+		yOne = 100;
+		
+		xTwo = 25;
+		yTwo = 250;
+		
+		xThree = 300;
+		yThree = 400;
+		
+		xFour = 25;
+		yFour = 550;
+		createObstaclesOne(xOne, yOne, 0);
+		createObstaclesTwo(xTwo, yTwo, 1);
+		createObstaclesThree(xThree, yThree, 6);
+		createObstaclesFour(xFour, yFour, 4);
+	}
 	//////////////
 	//// Game Object Methods
 
@@ -241,7 +307,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
-	public void createObstaclesFour(int x, int y, int size){
+	public void createObstaclesFour(int x, int y, int size) {
 		int objectsize = size / 2;
 		// top
 		for (int i = 0; i < 10; i++) {
@@ -260,8 +326,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		// right
 		for (int i = 0; i < 10; i++) {
-			objectmanager.addObstacleFour(
-					new Obstacle(x, y + (i * objectsize), objectsize, objectsize, 90, i * objectsize));
+			objectmanager
+					.addObstacleFour(new Obstacle(x, y + (i * objectsize), objectsize, objectsize, 90, i * objectsize));
 		}
 	}
 
@@ -325,6 +391,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (level == 2) {
 			levelthreeGraphics(g);
 
+		} else if (level == 3) {
+			levelfourGraphics(g);
+
+		} else if (level == 4) {
+			levelfiveGraphics(g);
 		}
 
 	}
@@ -354,6 +425,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			leveltwoValues();
 		} else if (level == 2) {
 			levelthreeValues();
+		} else if (level == 3) {
+			levelfourValues();
+		} else if (level == 4) {
+			levelfiveValues();
+		}
+		else if(level == 5) {
+			System.exit(0);
 		}
 	}
 
