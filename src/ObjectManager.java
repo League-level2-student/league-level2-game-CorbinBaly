@@ -8,11 +8,11 @@ import javax.swing.JOptionPane;
 public class ObjectManager {
 	int i;
 
-	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
-	ArrayList<Obstacle> obstaclesTwo = new ArrayList<Obstacle>();
-	ArrayList<Obstacle> obstaclesThree = new ArrayList<Obstacle>();
-	ArrayList<Obstacle> obstaclesFour = new ArrayList<Obstacle>();
-	ArrayList<WallPiece> wallpieces = new ArrayList<WallPiece>();
+	static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+	static ArrayList<Obstacle> obstaclesTwo = new ArrayList<Obstacle>();
+	static ArrayList<Obstacle> obstaclesThree = new ArrayList<Obstacle>();
+	static ArrayList<Obstacle> obstaclesFour = new ArrayList<Obstacle>();
+	static ArrayList<WallPiece> wallpieces = new ArrayList<WallPiece>();
 
 	Player player;
 	boolean sendBack = false;
@@ -31,27 +31,30 @@ public class ObjectManager {
 			sendBack = true;
 			GamePanel.currentState = 0;
 			System.out.println("level up");
-			if(GamePanel.level==1) {
+			if (GamePanel.level == 1) {
 				JOptionPane.showMessageDialog(null, "Yeah that one was easy, let's see the next one.");
 				Player.direcOne = "none";
 				Player.direcTwo = "none";
 			}
-			if(GamePanel.level==2) {
+			if (GamePanel.level == 2) {
 				JOptionPane.showMessageDialog(null, "Even better, but still a bit too easy. ");
 				Player.direcOne = "none";
 				Player.direcTwo = "none";
 			}
-			if(GamePanel.level==3) {
+			if (GamePanel.level == 3) {
 				JOptionPane.showMessageDialog(null, "Wow, you're getting pretty good!");
 				Player.direcOne = "none";
 				Player.direcTwo = "none";
-			}if(GamePanel.level==4) {
-				JOptionPane.showMessageDialog(null, "Oh my god you did it. It took me like over 80 tries to get this one. I'm so proud of  you.");
-				JOptionPane.showMessageDialog(null, "That's the end. That's it. It's time for you to go outside. Get out of the house. Have fun.");
+			}
+			if (GamePanel.level == 4) {
+				JOptionPane.showMessageDialog(null,
+						"Oh my god you did it. It took me like over 80 tries to get this one. I'm so proud of  you.");
+				JOptionPane.showMessageDialog(null,
+						"That's the end. That's it. It's time for you to go outside. Get out of the house. Have fun.");
 				Player.direcOne = "none";
 				Player.direcTwo = "none";
 			}
-			
+
 		}
 		for (Obstacle a : obstacles) {
 			if (player.collisionBox.intersects(a.collisionBox)) {
@@ -102,6 +105,7 @@ public class ObjectManager {
 	}
 
 	void createWalls() {
+		wallpieces.clear();
 		// top bar
 		addWall(new WallPiece(0, 0, MediocreGame.width, 25));
 		// bottom bar
@@ -109,10 +113,13 @@ public class ObjectManager {
 		// left bar
 		addWall(new WallPiece(0, 25, 25, MediocreGame.height));
 		// right bar
-		addWall(new WallPiece(MediocreGame.width - 25, 25, 25, MediocreGame.height));
+		addWall(new WallPiece(MediocreGame.width - 25, 25, 50, MediocreGame.height));
+		
+	
 	}
 
 	void draw(Graphics g) {
+		
 		player.draw(g);
 		endpoint.draw(g);
 		for (int i = 0; i < obstacles.size(); i++) {
@@ -130,6 +137,7 @@ public class ObjectManager {
 		for (int i = 0; i < wallpieces.size(); i++) {
 			wallpieces.get(i).draw(g);
 		}
+		
 
 	}
 
@@ -166,7 +174,8 @@ public class ObjectManager {
 		endpoint.update(x, y);
 	}
 
-	public void rotateAll(int firstx, int firsty, int secondx, int secondy, int thirdx, int thirdy, int fourx, int foury) {
+	public void rotateAll(int firstx, int firsty, int secondx, int secondy, int thirdx, int thirdy, int fourx,
+			int foury) {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).circleMove(firstx, firsty);
 		}
@@ -195,6 +204,7 @@ public class ObjectManager {
 		obstaclesThree.add(obstacle);
 
 	}
+
 	public void addObstacleFour(Obstacle obstacle) {
 		obstaclesFour.add(obstacle);
 

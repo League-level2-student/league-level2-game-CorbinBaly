@@ -16,7 +16,6 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
-	boolean showMessage;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
@@ -31,7 +30,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static int playerDeaths = 0;
 	Player player = new Player(40, 40, 30, 30);
 	ObjectManager objectmanager;
-	static int level = 4;
+	static int level =3;
 	// X and Y's for obstacle placements
 	int xOne;
 	int yOne;
@@ -79,6 +78,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// level 1
 	public void leveloneValues() {
 		// create obstacles
+		
 		xOne = 300;
 		yOne = 200;
 		xTwo = 400;
@@ -88,6 +88,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		createObstaclesOne(xOne, yOne, 50);
 		createObstaclesTwo(xTwo, yTwo, 50);
 		createObstaclesThree(xThree, yThree, 50);
+		
 	}
 
 	public void leveloneGraphics(Graphics g) {
@@ -99,7 +100,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			// Safe Zone
 			g.setColor(Color.GREEN);
 			g.fillRect(40, 40, 75, 75);
+			objectmanager.createWalls();
 			objectmanager.draw(g);
+			
 		}
 	}
 
@@ -118,11 +121,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			endPointY = 400;
 			endPointX = 100;
 			objectmanager.draw(g);
+			objectmanager.createWalls();
 		}
 	}
 
 	public void leveltwoValues() {
-
+		
 		xOne = 175;
 		yOne = 200;
 		xTwo = 170;
@@ -147,11 +151,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			endPointY = 50;
 			endPointX = 600;
 			objectmanager.draw(g);
+			objectmanager.createWalls();
 		}
 	}
 
 	public void levelthreeValues() {
-
+		
 		xOne = 250;
 		yOne = 300;
 		xTwo = 450;
@@ -164,6 +169,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		createObstaclesTwo(xTwo, yTwo, 45);
 		createObstaclesThree(xThree, yThree, 50);
 		createObstaclesFour(xFour, yFour, 30);
+		
 	}
 
 	public void levelfourGraphics(Graphics g) {
@@ -179,11 +185,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			endPointY = 380;
 			endPointX = 25;
 			objectmanager.draw(g);
+			objectmanager.createWalls();
 		}
 	}
 
 	public void levelfourValues() {
-
+		
 		xOne = 100;
 		yOne = 300;
 		xTwo = 300;
@@ -194,8 +201,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		yFour = 300;
 		createObstaclesOne(xOne, yOne, 50);
 		createObstaclesTwo(xTwo, yTwo, 40);
-		createObstaclesThree(xThree, yThree, 35);
+		createObstaclesThree(xThree, yThree, 33);
 		createObstaclesFour(xFour, yFour, 30);
+	
 	}
 	
 	public void levelfiveGraphics(Graphics g) {
@@ -210,7 +218,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			// End Point
 			endPointY = 600;
 			endPointX = 200;
+			objectmanager.createWalls();
 			objectmanager.draw(g);
+			
 		}
 	}
 
@@ -227,10 +237,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		xFour = 25;
 		yFour = 550;
-		createObstaclesOne(xOne, yOne, 0);
-		createObstaclesTwo(xTwo, yTwo, 1);
-		createObstaclesThree(xThree, yThree, 6);
-		createObstaclesFour(xFour, yFour, 4);
+		createObstaclesOne(xOne, yOne, 45);
+		createObstaclesTwo(xTwo, yTwo, 40);
+		createObstaclesThree(xThree, yThree, 50);
+		createObstaclesFour(xFour, yFour, 48);
+		
 	}
 	//////////////
 	//// Game Object Methods
@@ -357,9 +368,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.YELLOW);
 		g.setFont(instructionFont);
 		g.drawString("- Move around using the arrow keys.", 225, 525);
-		g.drawString("- Avoid the moving red objects", 225, 575);
-		g.drawString("- Collect the gold coins around the map", 225, 635);
-		g.drawString("- Reach the green tile to the side", 225, 695);
+		g.drawString("- Avoid the moving blue objects", 225, 575);
+		g.drawString("- Reach the green tile to the side", 225, 635);
 	}
 
 	private void drawEndState(Graphics g) {
@@ -380,22 +390,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// Drawing Game Things
 		// TODO Auto-generated method stub
 		// level 1
-		objectmanager.createWalls();
 		if (level == 0) {
 			leveloneGraphics(g);
+			
 		}
 		// level 2
 		else if (level == 1) {
 			leveltwoGraphics(g);
+			
 
 		} else if (level == 2) {
 			levelthreeGraphics(g);
+			
 
 		} else if (level == 3) {
 			levelfourGraphics(g);
+			
 
 		} else if (level == 4) {
 			levelfiveGraphics(g);
+			
 		}
 
 	}
@@ -412,11 +426,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("Press ENTER to start", 300, 300);
 		g.setFont(instructionFont);
 		g.drawString("Press SPACE for instructions", 305, 450);
-		if (showMessage) {
-			JOptionPane.showMessageDialog(null, "Oh nice, you got it first try.");
-			System.out.println("working");
-			showMessage = false;
-		}
 		// clearing stuff
 		objectmanager.removeStuff();
 		if (level == 0) {
@@ -440,6 +449,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
+		System.out.println(ObjectManager.obstacles.size()+ObjectManager.obstaclesTwo.size()+ObjectManager.obstaclesThree.size()+ObjectManager.obstaclesFour.size()+ObjectManager.wallpieces.size());
 		if (currentState == GAME_STATE) {
 			updateGameState();
 		}
