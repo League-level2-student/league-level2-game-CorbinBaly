@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static int playerDeaths = 0;
 	Player player = new Player(40, 40, 30, 30);
 	ObjectManager objectmanager;
-	static int level =3;
+	static int level =0;
 	// X and Y's for obstacle placements
 	int xOne;
 	int yOne;
@@ -199,7 +199,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		yThree = 375;
 		xFour = 400;
 		yFour = 300;
-		createObstaclesOne(xOne, yOne, 50);
+		createObstaclesOne(xOne, yOne, 42);
 		createObstaclesTwo(xTwo, yTwo, 40);
 		createObstaclesThree(xThree, yThree, 33);
 		createObstaclesFour(xFour, yFour, 30);
@@ -438,9 +438,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			levelfourValues();
 		} else if (level == 4) {
 			levelfiveValues();
-		}
-		else if(level == 5) {
-			System.exit(0);
 		}
 	}
 

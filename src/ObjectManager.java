@@ -46,13 +46,14 @@ public class ObjectManager {
 				Player.direcOne = "none";
 				Player.direcTwo = "none";
 			}
-			if (GamePanel.level == 4) {
+			if (GamePanel.level == 5) {
 				JOptionPane.showMessageDialog(null,
 						"Oh my god you did it. It took me like over 80 tries to get this one. I'm so proud of  you.");
 				JOptionPane.showMessageDialog(null,
 						"That's the end. That's it. It's time for you to go outside. Get out of the house. Have fun.");
 				Player.direcOne = "none";
 				Player.direcTwo = "none";
+				System.exit(0);
 			}
 
 		}
